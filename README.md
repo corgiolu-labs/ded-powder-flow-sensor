@@ -1,66 +1,82 @@
 # In-situ powder-flow sensor for metal DED additive manufacturing
 
-> Research internship — **Joanneum Research (Austria), 2019–2020**.
-> Developing an **in-situ sensor** to measure, and ultimately close the loop on, the **metal powder mass-flow** that feeds a **laser Directed Energy Deposition (DED / LMD)** process.
+> ITS final project (*ITS Malignani*, Udine) carried out at **Joanneum Research** (Austria), **2019–2020**:
+> an **in-situ sensor** to measure, and ultimately close the loop on, the **metal powder mass-flow** that feeds a **laser Directed Energy Deposition (DED / LMD)** process.
 
-> ℹ️ **Note.** This repository is my own account of the engineering, with my own design artifacts (system concept, sensor PCB, prototype). The formal project deliverable was co-authored with the host institute and produced under an EU-funded project — it is **the consortium's document and is not reproduced here**, nor are partner/colleague names, the grant identifier, measured project data or any third-party reference material. The confidentiality term covering the work (a 5-year NDA signed in 2020) has expired.
+> ℹ️ **Note.** This is my own account of the engineering, with my own design artifacts. It is honest about what was *tested* versus *proposed as future work*. The work was done within an EU-region research project (see **Acknowledgement**); the practical results remain the property of Joanneum Research and are published here with permission. The confidentiality term covering the work (a 5-year NDA signed in 2020) has expired.
 
 ## The problem
 
 In **Directed Energy Deposition (DED)** — also called **Laser Metal Deposition (LMD)** — metal powder is carried by an Argon stream through a ~4 mm tube to the laser head, where it melts into the moving melt pool and builds the part up layer by layer on a multi-axis robot.
 
-The **powder mass-flow rate** (typically **2.5–50 g/min**, i.e. 0.08–0.83 g/s) sets the energy delivered *per unit mass* and so directly drives deposition quality — geometry, density, dilution. But it is hard to measure **in situ**:
+The **powder mass-flow rate** (typically **2.5–50 g/min**) sets the energy delivered *per unit mass* and so directly drives deposition quality — geometry, density, dilution. But it is hard to measure **in situ**:
 
 - the "fluid" is a **heterogeneous solid–gas mix** (Argon-to-powder volume ratio ≈ **99:1**) — a tiny mass of powder in a lot of gas;
-- the powder feeder emits **irregularly**, with **no fast feedback** near the head — flow can drift by **up to 30 %**.
+- the feeder emits **irregularly**, with **no fast feedback** near the head — flow can drift by **up to 30 %**.
 
-Closed-loop control therefore needs a **high-sensitivity, high-speed** flow sensor placed close to the nozzle. That sensor was the goal of my internship.
+Closed-loop control therefore needs a **high-sensitivity, high-speed** flow sensor close to the nozzle. That sensor was the goal of my internship.
 
 ## System concept
 
 <p align="center">
-  <img src="docs/images/concept-system.svg" width="620"><br>
-  <em>Proposed powder-flow control concept: buffered hopper with an adjustable "loose-angle" outlet, an electromagnetically-actuated gate, and an <strong>inductance sensor</strong> (sensing coil around the delivery tube) feeding the flow signal back to the controller.</em>
+  <img src="docs/images/concept-system.svg" width="600"><br>
+  <em>Powder-flow control concept: buffered hopper with an adjustable "loose-angle" outlet, an electromagnetically-actuated gate, and an <strong>inductance sensor</strong> (sensing coil around the delivery tube) feeding the flow signal back to the controller.</em>
 </p>
 
 <p align="center">
   <img src="docs/images/robot-cell.jpg" width="470"><br>
-  <em>The target process: a robot-mounted laser-DED head with coaxial powder feeding — the cell where the sensor was developed. <sub>Photo © Joanneum Research, used with permission.</sub></em>
+  <em>The target process: an <strong>ABB IRB 4600</strong> robot carrying a <strong>3–6 kW Nd:YAG</strong> laser-DED head with coaxial powder feeding — the cell where the sensor was developed. <sub>Photo © Joanneum Research, used with permission.</sub></em>
 </p>
 
 ## Sensing approaches I tested
 
-I started from a systematic survey of flow-measurement physics, then narrowed by **sensitivity** and **speed**:
+I started from a systematic survey of flow-measurement physics, then narrowed by **sensitivity** and **speed** down to the **magnetic** and **optical** families.
 
-| Family | Examples | Verdict for powder-in-Argon |
-|---|---|---|
-| Mechanical | orifice, Venturi, turbine, Coriolis | too slow / intrusive for a fast micro-flow |
-| Electrical | hot-wire, magnetic meters | promising frequency response |
-| **Magnetic** | **inductance / RF frequency shift** | **pursued** — coil permeability changes with powder |
-| Acoustic | ultrasonic transit-time, Doppler, magneto-acoustic | tested as an alternative |
-| Optical | laser scattering + photodiode | tested — fastest, but optics foul |
+**Test conditions:** GTV powder feeder, stainless steel **316L** and nickel alloy **Inconel 625** (45–100 µm), **6.5–22.5 g/min**, Argon carrier 5 l/min.
 
 The **magnetic / RF path**, in four iterations:
 
-1. **Inductance measurement** — a small sensing coil (`L = µN²S/l`); the powder inside it changes the permeability. *Result: the change was far too small for a cheap LCR meter to resolve.*
+1. **Inductance measurement** — a small sensing coil (5 turns, ⌀7.5 mm, 22 mm; `L = µN²S/l`); the powder inside changes the permeability. *Result: the change was far too small for a cheap LCR meter to resolve.*
 2. **Frequency-shift** — put the coil in an oscillator (`f₀ = 1/2π√(LC)`), so a tiny ΔL becomes a measurable Δf. *Result: ~2 kHz of signal, but unstable — 200–300 Hz jitter from the intermittent particle stream.*
 3. **Super-heterodyne + Faraday cage** — borrow the radio-receiver principle (local oscillator → fixed IF) to pull out the small shift, the circuit shielded in a metal box. *Result: clean on/off detection, but flow-rate changes still hard to resolve.*
-4. **PLL-stabilized sensor** — lock the base frequency with a **PLL** and feed a professional SMD super-heterodyne mixer (**MC1496**) directly, removing over-air transmission and spurious fields. *Result: **valid** — sensitive enough to detect powder-flow variations.*
+4. **Magneto-acoustic, PLL-stabilized** — the approach that worked: correlate the coil's self-inductance change with an **audible signal (0–22 kHz)**, with the base frequency locked by a **PLL** (87.7 MHz) feeding an SMD super-heterodyne module directly (no over-air path, no spurious fields). *Result: **valid** — sensitive enough to resolve powder-flow variations (see Results).*
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/images/experimental-setup.jpg"></td>
+    <td width="50%" align="center"><img src="docs/images/sensor-bench.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Test bench: sensor circuit, oscilloscope and radio receiver.</em></td>
+    <td align="center"><em>Sensing coil + board, with the inductor-design tool used to dimension the coil.</em></td>
+  </tr>
+</table>
 
 <p align="center">
-  <img src="docs/images/pwd-sensor-pcb.png" width="620"><br>
+  <img src="docs/images/pwd-sensor-pcb.png" width="600"><br>
   <em>My PWD-sensor board — the sensing element is the on-board <strong>inductor</strong>, read out by a stabilized RF oscillator (signed "Alex83 PWD sensor 1.0").</em>
 </p>
 
-In parallel I also tested a **magneto-acoustic** method (spectral analysis of the sound vs. flow rate) and an **optical** setup — a 3 mW laser diode (driven at constant current with an `LM317` / `REF25Z` reference) and an **avalanche photodiode** receiver.
+In parallel I designed an **optical** path — a 3 mW **laser diode** (650 nm) and an **avalanche photodiode** across a transparent tube, reading absorption + scattering of the passing powder. Component supply was slowed by COVID-19, so this was only taken to **preliminary** tests (see Future work).
 
-## Prototype
+## Results
 
-When COVID-19 closed access to the production DED cell, I **built a benchtop powder feeder** to keep experimenting off-site: a vibrating-sheet feeder (no carrier gas) dropping powder through the PWD sensor, driven by an **Arduino MKR WiFi 1010** controller running:
+The **magneto-acoustic, PLL-stabilized** sensor is the one that worked. Sampling its audio output and taking the **FFT**, the spectrum shows a peak whose **frequency tracks the powder flow** — clearly separating *no powder* from 25 / 50 / 100 % feed:
 
-- a **PID** loop regulating flow via a **PWM-driven micro-vibrator**,
-- **sampling** of the sensor signal and **SD-card logging**,
-- multi-channel I/O (Bluetooth / WiFi / USB / Ethernet) with **Modbus TCP** over the MKR ETH shield.
+<p align="center">
+  <img src="docs/images/results-fft.png" width="560"><br>
+  <em>FFT of the sensor's acoustic signal at increasing powder flow (no powder → 25 % → 50 % → 100 %): the peak moves 55 → 68 → 75 Hz. The sensor is sensitive to the flow rate.</em>
+</p>
+
+Honest limitations, and where the signal fights noise:
+
+- **inductance alone** is too small to resolve with a cheap meter;
+- **Argon is diamagnetic** (µ < 1) and the powder is only ~0.04 % of the flow volume, so the gas tends to mask the powder's contribution;
+- **environmental magnetic fields and vibration** add noise that can swamp the flow signal without shielding.
+
+## Prototype & firmware
+
+When COVID-19 closed access to the production DED cell, I **built a benchtop powder feeder** to keep experimenting off-site: a vibrating-sheet feeder (no carrier gas) dropping powder through the PWD sensor, driven by an **Arduino MKR WiFi 1010**.
 
 <table>
   <tr>
@@ -68,61 +84,53 @@ When COVID-19 closed access to the production DED cell, I **built a benchtop pow
     <td width="50%" align="center"><img src="docs/images/prototype-demo.gif" height="320"></td>
   </tr>
   <tr>
-    <td align="center"><em>Benchtop prototype: reservoir, vibrating feeder, sensor board and LCD — Arduino-controlled.</em></td>
+    <td align="center"><em>Benchtop prototype: reservoir, vibrating feeder, sensor board and LCD.</em></td>
     <td align="center"><em>Powder metered through the sensor, PID setpoint on the LCD.<br>▶ <a href="docs/video/prototype-demo.mp4">Full demo video</a></em></td>
   </tr>
 </table>
 
-## Schematics & firmware
+The controller firmware ([`firmware/powder_flow_controller/`](firmware/powder_flow_controller)) runs an LCD + keypad menu to pick the **powder material** (steel, titanium, Inconel, …), set the **flow setpoint** (g/min), drive the **vibrating feeder** (PWM), read the **photodiode**, and close the loop with a **PID** mode — with sampling, SD logging and **Modbus TCP** over the MKR ETH shield.
 
-The RF front-end is a **heterodyne LC-oscillator** adapted from a classic **theremin**: in a theremin the player's hand detunes an oscillator; here the **powder flowing past the sensing coil** detunes it instead, and the beat against a reference oscillator carries the flow signal.
+## Future work
 
-<p align="center">
-  <img src="hardware/schematics/sensor-circuit-schematic.png" width="680"><br>
-  <em>Sensor circuit — dual LC oscillators + mixer (heterodyne front-end, adapted from a theremin).</em>
-</p>
+Directions I would have taken next, had the internship continued:
+
+- **Dual-oscillator differential front-end** — the powder signal is masked by Argon's diamagnetism; running a **second, reference oscillator** and subtracting it instant-by-instant should cancel the gas term and leave only the powder's contribution. I drew up a **theremin-derived** heterodyne front-end for exactly this (a theremin already beats two LC oscillators) — **designed, not yet built:**
 
 <table>
   <tr>
-    <td width="60%" align="center"><img src="hardware/schematics/sensor-pcb-placement.png"></td>
-    <td width="40%" align="center"><img src="docs/images/sensor-mounted.jpg" height="300"></td>
+    <td width="55%" align="center"><img src="hardware/schematics/theremin-oscillator-schematic.png"></td>
+    <td width="45%" align="center"><img src="hardware/schematics/theremin-oscillator-pcb.png"></td>
   </tr>
   <tr>
-    <td align="center"><em>PCB component placement.</em></td>
-    <td align="center"><em>The sensor on the powder tube (3D-printed housing + board).</em></td>
+    <td align="center"><em>Proposed dual-oscillator (theremin-derived) sensor circuit.</em></td>
+    <td align="center"><em>PCB component placement for the proposed front-end.</em></td>
   </tr>
 </table>
 
-The benchtop controller runs on an **Arduino** — [`firmware/powder_flow_controller/`](firmware/powder_flow_controller): an LCD + keypad menu to pick the **powder material** (steel, titanium, Inconel, …), set the **flow setpoint** (g/min), drive the **vibrating feeder** (PWM) and read the **photodiode**, with a **PID** mode closing the loop.
-
-## Results (honestly)
-
-| Approach | Outcome |
-|---|---|
-| Inductance (LCR) | change too small to resolve |
-| Frequency-shift | ~2 kHz signal, unstable |
-| Super-heterodyne | reliable on/off, weak rate discrimination |
-| **PLL-stabilized RF** | **valid — sensitive to flow variation** ✓ |
-| Optical (laser + APD) | good signal, but powder fouls the tube |
-
-Two failure modes were pinned down and given a path forward: **Argon's diamagnetism** (µ < 1) tends to mask the powder's contribution → a **dual-oscillator differential** scheme to cancel the gas term; and **environmental magnetic / vibration noise** → shielding. For the optical fouling, a **self-cleaning square tempered-glass tube** was proposed.
+- **Better shielding** against environmental magnetic / vibration noise.
+- **Optical path** with a **square-section tempered-glass tube** that self-cleans as the powder passes, to stop the fouling that limited the laser/photodiode setup.
 
 ## Skills demonstrated
 
-**Embedded** (PIC, Arduino MKR) · **RF & analog** (oscillators, PLL, super-heterodyne, MC1496 mixer, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
+**Embedded** (PIC, Arduino MKR) · **RF & analog** (oscillators, PLL, super-heterodyne, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
 
 ## Repository layout
 
 ```text
 firmware/powder_flow_controller/   Arduino sketch — LCD/keypad menu, PID, vibrator, photodiode
-hardware/schematics/               sensor circuit schematic + PCB component placement
-docs/images/                       concept diagram, sensor PCB, photos, demo GIF
+hardware/schematics/               theremin-derived dual-oscillator (future-work design): schematic + PCB
+docs/images/                       concept, sensor PCB, experimental setups, FFT results, demo GIF
 docs/video/                        prototype demo (MP4)
 ```
 
 ## Context
 
-Research internship at **Joanneum Research** (Austria), **2019–2020**, in metal additive manufacturing — the start of my path into embedded & sensor engineering, which continued at Leonardo (radar integration & validation) and across the projects below.
+ITS final project for the **"Tecnico Superiore per l'Automazione ed i Sistemi Meccatronici (Additive Manufacturing)"** course (**ITS Malignani**, Udine), carried out during a research internship at **Joanneum Research** (Austria), **2019–2020**. This was the start of my path into embedded & sensor engineering, which then continued at Leonardo (radar integration & validation) and across the projects below.
+
+## Acknowledgement
+
+This work was carried out within the **QuaL-DED** project (*"Total control of laser-based additive manufacturing for zero-defect metal components"*), funded by the **Austrian Research Funding Agency (FFG)** under grant **877386** (*Produktion der Zukunft*), at **Joanneum Research** (Niklasdorf, Austria), under the supervision of **Dr. V. Petrović-Filipović**. The practical results of this work remain the property of **Joanneum Research Forschungsgesellschaft mbH** and are shared here with permission.
 
 ## Author
 
