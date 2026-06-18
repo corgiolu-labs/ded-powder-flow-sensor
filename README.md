@@ -156,6 +156,8 @@ Directions I would have taken next, had the internship continued:
   <em>Designed optical readout: laser (650 nm) → transparent tube → avalanche photodiode → ADC → Arduino.</em>
 </p>
 
+- **Data-driven readout (machine learning)** — instead of tracking the FFT peak by hand, learn the powder flow rate directly from the sensor's **acoustic signature**. The FFT already shows the feed levels are separable, so a light model over **spectral features** (peak frequency, spectral centroid, band energies, MFCCs) with a simple regressor (ridge / random-forest / SVR), validated **per recording session** to avoid leakage, could read the flow more robustly than a single peak — and exploit the whole spectral shape rather than one frequency. It is a smarter *readout* layer on a noisy sensor: **bounded by signal-to-noise and by how much labelled, gravimetrically-referenced data you can collect — not a way around the physics.**
+
 ## Skills demonstrated
 
 **Embedded** (PIC, Arduino UNO/MKR) · **RF & analog** (Colpitts oscillators, PLL, super-heterodyne, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
