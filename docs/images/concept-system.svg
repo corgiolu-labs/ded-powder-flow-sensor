@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" font-family="'Segoe UI',system-ui,Arial,sans-serif">
+  <defs>
+    <marker id="ab" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563eb"/></marker>
+    <marker id="ag" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9aa3af"/></marker>
+    <marker id="ad" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#475569"/></marker>
+  </defs>
+
+  <rect x="2" y="2" width="716" height="596" rx="14" fill="#f7f9fc" stroke="#cbd5e1"/>
+  <text x="28" y="36" font-size="16" font-weight="700" fill="#1e293b">In-situ powder-flow control — concept</text>
+
+  <!-- powder feeder supply -->
+  <rect x="78" y="60" width="174" height="16" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <path d="M150,60 L150,76 L136,68 Z M150,60 L150,76 L164,68 Z" fill="#334155"/>
+  <line x1="92" y1="68" x2="130" y2="68" stroke="#9aa3af" stroke-width="2.5" marker-end="url(#ag)"/>
+  <line x1="170" y1="68" x2="246" y2="68" stroke="#9aa3af" stroke-width="2.5" marker-end="url(#ag)"/>
+  <text x="78" y="52" font-size="13" fill="#334155">powder feeder supply</text>
+
+  <!-- hopper / funnel -->
+  <path d="M250,84 L470,84 L470,152 L398,210 L362,210 L250,152 Z" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <path d="M258,122 L462,108 L462,152 L398,204 L362,204 L258,152 Z" fill="#c7ccd2"/>
+
+  <!-- powder-level proximity sensor -->
+  <rect x="300" y="102" width="120" height="7" fill="#dc2626"/>
+  <line x1="420" y1="105" x2="486" y2="105" stroke="#334155" stroke-width="1"/>
+  <text x="490" y="109" font-size="12.5" fill="#334155">powder-level proximity sensor</text>
+
+  <!-- loose-angle label -->
+  <text x="40" y="150" font-size="12.5" fill="#334155">adjustable</text>
+  <text x="40" y="166" font-size="12.5" fill="#334155">"loose-angle"</text>
+  <text x="40" y="182" font-size="12.5" fill="#334155">outlet</text>
+  <line x1="118" y1="166" x2="300" y2="178" stroke="#334155" stroke-width="1"/>
+
+  <!-- electromagnetic gate -->
+  <rect x="360" y="206" width="40" height="8" fill="#16a34a"/>
+  <line x1="400" y1="210" x2="486" y2="210" stroke="#334155" stroke-width="1"/>
+  <text x="490" y="214" font-size="12.5" fill="#334155">electromagnetic gate</text>
+
+  <!-- delivery tube -->
+  <line x1="362" y1="210" x2="362" y2="470" stroke="#334155" stroke-width="2"/>
+  <line x1="398" y1="210" x2="398" y2="470" stroke="#334155" stroke-width="2"/>
+
+  <!-- flow arrows -->
+  <g stroke="#2563eb" stroke-width="3" marker-end="url(#ab)">
+    <line x1="380" y1="224" x2="380" y2="252"/>
+    <line x1="380" y1="258" x2="380" y2="286"/>
+    <line x1="380" y1="388" x2="380" y2="416"/>
+    <line x1="380" y1="476" x2="380" y2="540"/>
+  </g>
+
+  <!-- sensing coil -->
+  <g stroke="#7c3aed" stroke-width="2.5" fill="none">
+    <ellipse cx="380" cy="306" rx="28" ry="8"/>
+    <ellipse cx="380" cy="324" rx="28" ry="8"/>
+    <ellipse cx="380" cy="342" rx="28" ry="8"/>
+    <ellipse cx="380" cy="360" rx="28" ry="8"/>
+  </g>
+  <path d="M353,314 L300,320 L230,332" fill="none" stroke="#7c3aed" stroke-width="2"/>
+  <path d="M353,352 L300,360 L230,360" fill="none" stroke="#7c3aed" stroke-width="2"/>
+
+  <!-- inductance sensor -->
+  <rect x="80" y="305" width="150" height="80" rx="6" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="155" y="340" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">inductance</text>
+  <text x="155" y="360" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">sensor</text>
+
+  <!-- feedback / closed loop -->
+  <path d="M150,305 L150,250 L356,212" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#ad)"/>
+  <text x="244" y="266" font-size="12" fill="#475569" text-anchor="middle">control signal (closed loop)</text>
+
+  <!-- nozzle -->
+  <path d="M356,470 L404,470 L392,545 L368,545 Z" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="414" y="513" font-size="13" fill="#334155">nozzle / laser head</text>
+
+  <!-- substrate / melt pool -->
+  <rect x="320" y="556" width="120" height="12" fill="#c7ccd2" stroke="#334155" stroke-width="1.5"/>
+  <ellipse cx="380" cy="556" rx="20" ry="6" fill="#f59e0b"/>
+  <text x="448" y="566" font-size="12.5" fill="#334155">substrate / melt pool</text>
+</svg>
