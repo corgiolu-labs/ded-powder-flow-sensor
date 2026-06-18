@@ -23,6 +23,11 @@ Closed-loop control therefore needs a **high-sensitivity, high-speed** flow sens
   <em>Proposed powder-flow control concept: buffered hopper with an adjustable "loose-angle" outlet, an electromagnetically-actuated gate, and an <strong>inductance sensor</strong> (sensing coil around the delivery tube) feeding the flow signal back to the controller.</em>
 </p>
 
+<p align="center">
+  <img src="docs/images/robot-cell.jpg" width="470"><br>
+  <em>The target process: a robot-mounted laser-DED head with coaxial powder feeding — the cell where the sensor was developed. <sub>Photo © Joanneum Research, used with permission.</sub></em>
+</p>
+
 ## Sensing approaches I tested
 
 I started from a systematic survey of flow-measurement physics, then narrowed by **sensitivity** and **speed**:
@@ -68,6 +73,28 @@ When COVID-19 closed access to the production DED cell, I **built a benchtop pow
   </tr>
 </table>
 
+## Schematics & firmware
+
+The RF front-end is a **heterodyne LC-oscillator** adapted from a classic **theremin**: in a theremin the player's hand detunes an oscillator; here the **powder flowing past the sensing coil** detunes it instead, and the beat against a reference oscillator carries the flow signal.
+
+<p align="center">
+  <img src="hardware/schematics/sensor-circuit-schematic.png" width="680"><br>
+  <em>Sensor circuit — dual LC oscillators + mixer (heterodyne front-end, adapted from a theremin).</em>
+</p>
+
+<table>
+  <tr>
+    <td width="60%" align="center"><img src="hardware/schematics/sensor-pcb-placement.png"></td>
+    <td width="40%" align="center"><img src="docs/images/sensor-mounted.jpg" height="300"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>PCB component placement.</em></td>
+    <td align="center"><em>The sensor on the powder tube (3D-printed housing + board).</em></td>
+  </tr>
+</table>
+
+The benchtop controller runs on an **Arduino** — [`firmware/powder_flow_controller/`](firmware/powder_flow_controller): an LCD + keypad menu to pick the **powder material** (steel, titanium, Inconel, …), set the **flow setpoint** (g/min), drive the **vibrating feeder** (PWM) and read the **photodiode**, with a **PID** mode closing the loop.
+
 ## Results (honestly)
 
 | Approach | Outcome |
@@ -83,6 +110,15 @@ Two failure modes were pinned down and given a path forward: **Argon's diamagnet
 ## Skills demonstrated
 
 **Embedded** (PIC, Arduino MKR) · **RF & analog** (oscillators, PLL, super-heterodyne, MC1496 mixer, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
+
+## Repository layout
+
+```text
+firmware/powder_flow_controller/   Arduino sketch — LCD/keypad menu, PID, vibrator, photodiode
+hardware/schematics/               sensor circuit schematic + PCB component placement
+docs/images/                       concept diagram, sensor PCB, photos, demo GIF
+docs/video/                        prototype demo (MP4)
+```
 
 ## Context
 
