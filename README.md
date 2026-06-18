@@ -165,6 +165,7 @@ Directions I would have taken next, had the internship continued:
 ```text
 firmware/powder_flow_controller/   Arduino sketch — LCD/keypad menu, PID, vibrator, photodiode
 hardware/schematics/               theremin-derived dual-oscillator (future-work design): schematic + PCB
+docs/                              full ITS report + presentation (PDF)
 docs/images/                       process & robot photos, schematics, experimental setups, results, demo GIF
 docs/video/                        prototype demo (MP4)
 ```
@@ -172,6 +173,8 @@ docs/video/                        prototype demo (MP4)
 ## Context
 
 ITS final project for the **"Tecnico Superiore per l'Automazione ed i Sistemi Meccatronici (Additive Manufacturing)"** course (**ITS Malignani**, Udine), carried out during a research internship at **Joanneum Research** (Austria), **2019–2020**. This was the start of my path into embedded & sensor engineering, which then continued at Leonardo (radar integration & validation) and across the projects below.
+
+📄 **Full documentation:** the complete [ITS final report](docs/ITS-final-report.pdf) (25 pages) and the [project presentation](docs/presentation.pdf).
 
 ## Acknowledgement
 
