@@ -116,7 +116,7 @@ Honest limitations, and where the signal fights noise:
 
 ## Prototype & firmware
 
-When COVID-19 closed access to the production DED cell, I **built a benchtop powder feeder** to keep experimenting off-site: a vibrating-sheet feeder (no carrier gas) dropping powder through the PWD sensor, driven by an **Arduino MKR WiFi 1010**.
+When COVID-19 closed access to the production DED cell, I **built a benchtop powder feeder** to keep experimenting off-site: a vibrating-sheet feeder (no carrier gas) dropping powder through the PWD sensor, driven by an **Arduino UNO**.
 
 <table>
   <tr>
@@ -129,7 +129,7 @@ When COVID-19 closed access to the production DED cell, I **built a benchtop pow
   </tr>
 </table>
 
-The controller firmware ([`firmware/powder_flow_controller/`](firmware/powder_flow_controller)) runs an LCD + keypad menu to pick the **powder material** (steel, titanium, Inconel, …), set the **flow setpoint** (g/min), drive the **vibrating feeder** (PWM), read the **photodiode**, and close the loop with a **PID** mode — with sampling, SD logging and **Modbus TCP** over the MKR ETH shield.
+The controller firmware ([`firmware/powder_flow_controller/`](firmware/powder_flow_controller)) runs on an **Arduino UNO**: an LCD + keypad menu to pick the **powder material** (steel, titanium, Inconel, …), set the **flow setpoint** (g/min), drive the **vibrating feeder** (PWM), read the **photodiode**, and close the loop with a **PID** mode. A more connected build on an **Arduino MKR WiFi 1010** (Bluetooth / WiFi / USB / Ethernet, **Modbus TCP**, SD logging) was planned for the full system.
 
 ## Future work
 
@@ -158,7 +158,7 @@ Directions I would have taken next, had the internship continued:
 
 ## Skills demonstrated
 
-**Embedded** (PIC, Arduino MKR) · **RF & analog** (Colpitts oscillators, PLL, super-heterodyne, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
+**Embedded** (PIC, Arduino UNO/MKR) · **RF & analog** (Colpitts oscillators, PLL, super-heterodyne, frequency/impedance measurement) · **sensor & signal conditioning** · **control systems** (PID, closed-loop) · **mechatronics** (PWM actuation, custom feeder) · **CAD** (Autodesk Inventor) and **PCB design** · **metal additive manufacturing** (DED/LMD & PBF on a 6-axis robot; certified *Additive Manufacturing Operator*, Bureau Veritas Italia 2020) · **research method** (method selection, prototyping, honest evaluation).
 
 ## Repository layout
 
