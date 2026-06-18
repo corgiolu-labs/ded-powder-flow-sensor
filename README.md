@@ -57,10 +57,16 @@ When COVID-19 closed access to the production DED cell, I **built a benchtop pow
 - **sampling** of the sensor signal and **SD-card logging**,
 - multi-channel I/O (Bluetooth / WiFi / USB / Ethernet) with **Modbus TCP** over the MKR ETH shield.
 
-<p align="center">
-  <img src="docs/images/prototype-feeder.jpg" width="320"><br>
-  <em>Benchtop prototype: powder reservoir, vibrating feeder, sensor board and LCD, Arduino-controlled.</em>
-</p>
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/images/prototype-feeder.jpg" height="320"></td>
+    <td width="50%" align="center"><img src="docs/images/prototype-demo.gif" height="320"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Benchtop prototype: reservoir, vibrating feeder, sensor board and LCD — Arduino-controlled.</em></td>
+    <td align="center"><em>Powder metered through the sensor, PID setpoint on the LCD.<br>▶ <a href="docs/video/prototype-demo.mp4">Full demo video</a></em></td>
+  </tr>
+</table>
 
 ## Results (honestly)
 
